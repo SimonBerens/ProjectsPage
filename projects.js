@@ -1,5 +1,5 @@
 // YOUR NAME HERE
-const username = "tofr";
+const username = "SimonBerens";
 
 const api = "https://api.github.com";
 
@@ -18,7 +18,7 @@ $.ajax({
 <p class="lead"> ${u_bio} </p>
 <hr class="my-4">
 <p class="lead">
-    <a class="github-button" href="https://github.com/${u_name}" data-size="large" aria-label="Follow @ntkme on GitHub">Follow ${u_name}</a>
+    <a class="github-button" href="${u_repos}" data-size="large" aria-label="Follow @${u_name} on GitHub">Follow ${u_name}</a>
 </p>
     `;
         if (u_mail !== null) {
