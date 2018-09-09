@@ -62,7 +62,7 @@ $.getJSON({
                         "    <div class=\"row multiple-items\">";
                     const end_html = "" +
                         "    </div>\n" +
-                        "</div>";
+                        "</div>\n<div class=\'alert alert-light\' role=\'alert\'>\n    Made with ProjectsPage by <a href=\'http://simonberens.me\'> Simon Berens </a>\n</div>";
                     html += `
 <div class='col-sm-4 col-md-offset-4' style="margin-bottom: 3%">
     <div class='card' style='width: 100%; border: 2px solid ${lang_colors[r_language].color} '>
