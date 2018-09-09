@@ -1,5 +1,5 @@
 // YOUR NAME HERE
-const username = "SimonBerens";
+const username = "tofr";
 
 const api = "https://api.github.com";
 
@@ -54,8 +54,8 @@ $.getJSON({
                 let html = "";
                 response.forEach((repo) => {
                     const r_name = repo.name;
-                    const r_language = repo.language; //todo check languages
-                    const r_desc = repo.description;
+                    const r_language = repo.language === null? "": repo.language; //todo check languages
+                    const r_desc = repo.description === null? "": repo.description;
                     const r_url = repo.html_url;
                     const start_html = "" +
                         "<div class=\"container-fluid\">\n" +
