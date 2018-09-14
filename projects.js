@@ -13,6 +13,7 @@ $.ajax({
         const u_bio = user.bio;
         const u_repos = user.html_url;
         const u_mail = user.email;
+        const u_ico = user.avatar_url;
         let html = `
 <h1 class="display-3"> ${u_name} </h1>
 <p class="lead"> ${u_bio} </p>
@@ -30,6 +31,7 @@ $.ajax({
         const script = document.createElement('script');
         script.src = "https://buttons.github.io/buttons.js";
         $("body").append(script);
+        $('head').append(`<link href='${u_ico}' rel="shortcut icon" type="image/x-icon" />`);
 
     },
     error: (jqXHR, textStatus, errorThrown) => {
@@ -62,7 +64,7 @@ $.getJSON({
                         "    <div class=\"row multiple-items\">";
                     const end_html = "" +
                         "    </div>\n" +
-                        "</div>\n<div class=\'alert alert-light\' role=\'alert\' style=\'margin: 1%;\'>\n    Made with ProjectsPage by <a href=\'http://simonberens.me\'> Simon Berens </a>\n</div>";
+                        "</div>\n<div class=\'alert alert-light\' role=\'alert\' style=\'margin: 1%\'>\n    Made with ProjectsPage by <a href=\'http://simonberens.me\'> Simon Berens </a>\n</div>";
                     html += `
 <div class='col-sm-4 col-md-offset-4' style="margin-bottom: 3%">
     <div class='card' style='width: 100%; border: 2px solid ${lang_colors[r_language].color} '>
