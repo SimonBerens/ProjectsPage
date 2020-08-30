@@ -3,12 +3,9 @@ const username = "SimonBerens";
 
 const api = "https://api.github.com";
 
-$.ajax({
-    url: `${api}/users/${username}`,
-    type: "GET",
-    contentType: 'application/json; charset=utf-8',
-    success: (user) => {
-        console.log(user);
+fetch(`${api}/users/${username}`)
+    .then(resp => resp.json())
+    .then(user => {
         const u_name = user.name;
         const u_bio = user.bio;
         const u_repos = user.html_url;
@@ -27,45 +24,30 @@ $.ajax({
 <p> Contact me at <strong> <span class="email"> ${u_mail}  </span> </strong></p>
             `;
         }
-        $("#about").html(html);
+        document.getElementById("about").innerHTML = html;
         const script = document.createElement('script');
         script.src = "https://buttons.github.io/buttons.js";
-        $("body").append(script);
-        $('head').append(`<link href='${u_ico}' rel="shortcut icon" type="image/x-icon" />`);
+        document.body.append(script);
+        document.head.append(`<link href='${u_ico}' rel="shortcut icon" type="image/x-icon" />`);
+    });
 
-    },
-    error: (jqXHR, textStatus, errorThrown) => {
-        console.log(jqXHR, textStatus, errorThrown);
-    },
-    timeout: 120000
-});
-
-// get colors -> get repos -> make page
-$.getJSON({
-    url: "colors.json",
-    contentType: 'application/json; charset=utf-8',
-    success: (json) => {
-        const lang_colors = json;
-        console.log(lang_colors);
-        $.ajax({
-            url: `${api}/users/${username}/repos`,
-            type: "GET",
-            contentType: 'application/json; charset=utf-8',
-            success: (response) => {
-                console.log(response);
-                let html = "";
-                response.forEach((repo) => {
-                    const r_name = repo.name;
-                    const r_language = repo.language === null? "": repo.language; //todo check languages
-                    const r_desc = repo.description === null? "": repo.description;
-                    const r_url = repo.html_url;
-                    const start_html = "" +
-                        "<div class=\"container-fluid\">\n" +
-                        "    <div class=\"row multiple-items\">";
-                    const end_html = "" +
-                        "    </div>\n" +
-                        "</div>\n<div class=\'alert alert-light\' role=\'alert\' style=\'margin: 1%\'>\n    Made with ProjectsPage by <a href=\'http://simonberens.me\'> Simon Berens </a>\n</div>";
-                    html += `
+Promise.all([
+    fetch("colors.json").then(resp => resp.json()),
+    fetch(`${api}/users/${username}/repos`).then(resp => resp.json())
+]).then(([lang_colors, repos]) => {
+    let html = "";
+    repos.forEach((repo) => {
+        const r_name = repo.name;
+        const r_language = repo.language === null? "": repo.language;
+        const r_desc = repo.description === null? "": repo.description;
+        const r_url = repo.html_url;
+        const start_html = "" +
+            "<div class=\"container-fluid\">\n" +
+            "    <div class=\"row multiple-items\">";
+        const end_html = "" +
+            "    </div>\n" +
+            "</div>\n<div class=\'alert alert-light\' role=\'alert\' style=\'margin: 1%\'>\n    Made with ProjectsPage by <a href=\'https://simonberens.me\'> Simon Berens </a>\n</div>";
+        html += `
 <div class='col-sm-4 col-md-offset-4' style="margin-bottom: 3%">
     <div class='card' style='width: 100%; border: 2px solid ${lang_colors[r_language].color} '>
         <div class='card-body'>
@@ -76,17 +58,6 @@ $.getJSON({
     </div>
 </div>
                     `;
-                    $("#projects").html(start_html + html + end_html);
-                })
-            },
-            error: (jqXHR, textStatus, errorThrown) => {
-                console.log(jqXHR, textStatus, errorThrown);
-            },
-            timeout: 120000
-        });
-    },
-    error: (jqXHR, textStatus, errorThrown) => {
-        console.log(jqXHR, textStatus, errorThrown);
-    },
-    timeout: 120000
+        document.getElementById("projects").innerHTML = start_html + html + end_html;
+    })
 });
